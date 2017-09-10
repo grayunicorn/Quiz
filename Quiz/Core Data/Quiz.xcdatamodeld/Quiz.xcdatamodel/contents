@@ -1,4 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13233.4" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Individual" representedClassName=".Individual" syncable="YES">
+        <attribute name="login" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="QuizAnswer" representedClassName=".QuizAnswer" syncable="YES">
+        <attribute name="isCorrect" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="question" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuizQuestion" inverseName="answers" inverseEntity="QuizQuestion" syncable="YES"/>
+    </entity>
+    <entity name="QuizCollection" representedClassName=".QuizCollection" syncable="YES">
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="questions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="QuizQuestion" inverseName="collection" inverseEntity="QuizQuestion" syncable="YES"/>
+        <relationship name="students" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Student" inverseName="quizzes" inverseEntity="Student" syncable="YES"/>
+        <relationship name="teachers" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Teacher" inverseName="quizzes" inverseEntity="Teacher" syncable="YES"/>
+    </entity>
+    <entity name="QuizQuestion" representedClassName=".QuizQuestion" syncable="YES">
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="answers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="QuizAnswer" inverseName="question" inverseEntity="QuizAnswer" syncable="YES"/>
+        <relationship name="collection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuizCollection" inverseName="questions" inverseEntity="QuizCollection" syncable="YES"/>
+    </entity>
+    <entity name="Student" representedClassName=".Student" parentEntity="Individual" syncable="YES">
+        <relationship name="quizzes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="QuizCollection" inverseName="students" inverseEntity="QuizCollection" syncable="YES"/>
+        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Teacher" inverseName="students" inverseEntity="Teacher" syncable="YES"/>
+    </entity>
+    <entity name="Teacher" representedClassName=".Teacher" parentEntity="Individual" syncable="YES">
+        <relationship name="quizzes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="QuizCollection" inverseName="teachers" inverseEntity="QuizCollection" syncable="YES"/>
+        <relationship name="students" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Student" inverseName="relationship" inverseEntity="Student" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Individual" positionX="-317" positionY="-544" width="128" height="58"/>
+        <element name="QuizAnswer" positionX="214" positionY="-225" width="128" height="88"/>
+        <element name="QuizCollection" positionX="205" positionY="-585" width="128" height="103"/>
+        <element name="QuizQuestion" positionX="207" positionY="-396" width="128" height="88"/>
+        <element name="Student" positionX="-81" positionY="-621" width="128" height="73"/>
+        <element name="Teacher" positionX="-81" positionY="-459" width="128" height="73"/>
+    </elements>
 </model>
