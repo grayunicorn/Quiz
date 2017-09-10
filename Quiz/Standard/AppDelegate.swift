@@ -13,10 +13,32 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
-
-
+  
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    // Override point for customization after application launch.
+
+    let moc = persistentContainer.viewContext
+    
+    if let navController = window?.rootViewController as? UINavigationController {
+      if let rootVC = navController.viewControllers.first as? LoginViewController {
+        rootVC.moc = moc
+      }
+    }
+    
+    // first thing that happens is that if no users exist the JSON data is imported so that logins will be recognised
+    let teachersRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Teacher.kManagedObjectIdentifier)
+    do {
+      let teachers = try moc.fetch(teachersRequest) as! [Teacher]
+      if teachers.count == 0 {
+        try ImportJSONData.importJSONUsersFrom("users", fileExt: "json", context: moc)
+      } else {
+        print("teachers I know:")
+        for teacher in teachers {
+          print("\(teacher.login!)")
+        }
+      }
+    } catch {
+      fatalError("Failed to import users: \(error)")
+    }
     return true
   }
 
