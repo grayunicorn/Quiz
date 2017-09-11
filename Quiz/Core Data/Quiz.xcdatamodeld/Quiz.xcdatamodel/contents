@@ -32,7 +32,7 @@
         <element name="QuizAnswer" positionX="214" positionY="-225" width="128" height="88"/>
         <element name="QuizCollection" positionX="205" positionY="-585" width="128" height="103"/>
         <element name="QuizQuestion" positionX="207" positionY="-396" width="128" height="88"/>
-        <element name="Student" positionX="-81" positionY="-621" width="128" height="73"/>
+        <element name="Student" positionX="-90" positionY="-621" width="128" height="73"/>
         <element name="Teacher" positionX="-81" positionY="-459" width="128" height="73"/>
     </elements>
 </model>
