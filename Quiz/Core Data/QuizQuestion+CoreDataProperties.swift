@@ -2,7 +2,7 @@
 //  QuizQuestion+CoreDataProperties.swift
 //  Quiz
 //
-//  Created by Adam Eberbach on 10/9/17.
+//  Created by Adam Eberbach on 11/9/17.
 //  Copyright © 2017 Adam Eberbach. All rights reserved.
 //
 //
@@ -18,8 +18,43 @@ extension QuizQuestion {
     }
 
     @NSManaged public var text: String?
-    @NSManaged public var answers: NSSet?
+    @NSManaged public var answers: NSOrderedSet?
     @NSManaged public var collection: QuizCollection?
+
+}
+
+// MARK: Generated accessors for answers
+extension QuizQuestion {
+
+    @objc(insertObject:inAnswersAtIndex:)
+    @NSManaged public func insertIntoAnswers(_ value: QuizAnswer, at idx: Int)
+
+    @objc(removeObjectFromAnswersAtIndex:)
+    @NSManaged public func removeFromAnswers(at idx: Int)
+
+    @objc(insertAnswers:atIndexes:)
+    @NSManaged public func insertIntoAnswers(_ values: [QuizAnswer], at indexes: NSIndexSet)
+
+    @objc(removeAnswersAtIndexes:)
+    @NSManaged public func removeFromAnswers(at indexes: NSIndexSet)
+
+    @objc(replaceObjectInAnswersAtIndex:withObject:)
+    @NSManaged public func replaceAnswers(at idx: Int, with value: QuizAnswer)
+
+    @objc(replaceAnswersAtIndexes:withAnswers:)
+    @NSManaged public func replaceAnswers(at indexes: NSIndexSet, with values: [QuizAnswer])
+
+    @objc(addAnswersObject:)
+    @NSManaged public func addToAnswers(_ value: QuizAnswer)
+
+    @objc(removeAnswersObject:)
+    @NSManaged public func removeFromAnswers(_ value: QuizAnswer)
+
+    @objc(addAnswers:)
+    @NSManaged public func addToAnswers(_ values: NSOrderedSet)
+
+    @objc(removeAnswers:)
+    @NSManaged public func removeFromAnswers(_ values: NSOrderedSet)
 
 }
 
@@ -35,19 +70,3 @@ extension QuizQuestion {
   }
 }
 
-// MARK: Generated accessors for answers
-extension QuizQuestion {
-
-    @objc(addAnswersObject:)
-    @NSManaged public func addToAnswers(_ value: QuizAnswer)
-
-    @objc(removeAnswersObject:)
-    @NSManaged public func removeFromAnswers(_ value: QuizAnswer)
-
-    @objc(addAnswers:)
-    @NSManaged public func addToAnswers(_ values: NSSet)
-
-    @objc(removeAnswers:)
-    @NSManaged public func removeFromAnswers(_ values: NSSet)
-
-}
