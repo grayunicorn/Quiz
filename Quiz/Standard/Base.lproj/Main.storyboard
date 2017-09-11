@@ -50,7 +50,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Enter"/>
                                 <connections>
-                                    <action selector="proceedAction:" destination="SPB-7j-5xi" eventType="touchUpInside" id="fap-Da-9IT"/>
+                                    <action selector="proceedButtonAction:" destination="SPB-7j-5xi" eventType="touchUpInside" id="VNE-UQ-xnw"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sDx-qv-Mf4">
@@ -74,6 +74,7 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                                 <connections>
                                     <action selector="usernameEditingDidEnd:" destination="SPB-7j-5xi" eventType="editingDidEnd" id="cbz-Qp-BwQ"/>
+                                    <outlet property="delegate" destination="SPB-7j-5xi" id="uW9-K8-ooF"/>
                                 </connections>
                             </textField>
                         </subviews>
@@ -98,20 +99,22 @@
                     <navigationItem key="navigationItem" id="kYO-s7-gpq"/>
                     <connections>
                         <outlet property="usernameField" destination="06u-1l-ruj" id="lmz-cF-iMU"/>
+                        <segue destination="Zj0-Le-pGb" kind="show" identifier="TeacherLoginSegue" id="EUc-XI-iRT"/>
+                        <segue destination="FGX-qS-k9V" kind="show" identifier="StudentLoginSegue" id="fBx-aZ-XJu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OZK-5N-m3s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="408.80000000000001" y="-305.39730134932535"/>
         </scene>
-        <!--View Controller-->
+        <!--Teacher View Controller-->
         <scene sceneID="dcp-98-RNR">
             <objects>
-                <viewController id="Zj0-Le-pGb" sceneMemberID="viewController">
+                <viewController id="Zj0-Le-pGb" customClass="TeacherViewController" customModule="Quiz" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Y8M-mu-FUQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.91684196610000002" green="1" blue="0.78161866040000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="LCG-ME-GWi"/>
                     </view>
                 </viewController>
@@ -119,14 +122,14 @@
             </objects>
             <point key="canvasLocation" x="1257" y="-646"/>
         </scene>
-        <!--View Controller-->
+        <!--Student View Controller-->
         <scene sceneID="RIa-Am-57u">
             <objects>
-                <viewController id="FGX-qS-k9V" sceneMemberID="viewController">
+                <viewController id="FGX-qS-k9V" customClass="StudentViewController" customModule="Quiz" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5kN-Dh-yfd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="0.95541525579999997" blue="0.68503748519999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="Yv4-on-R55"/>
                     </view>
                 </viewController>

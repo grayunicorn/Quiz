@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		662D774B1F6552C000511A7A /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 662D774A1F6552C000511A7A /* users.json */; };
 		6645E4941F64FEE7008DD79B /* ImportJSONData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6645E4931F64FEE7008DD79B /* ImportJSONData.swift */; };
+		669FB65D1F65F07D0035CCFA /* TeacherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669FB65C1F65F07D0035CCFA /* TeacherViewController.swift */; };
+		669FB65F1F65F1C10035CCFA /* StudentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669FB65E1F65F1C10035CCFA /* StudentViewController.swift */; };
 		66ABCBBE1F64F22200A5EA07 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66ABCBBD1F64F22200A5EA07 /* LoginViewController.swift */; };
 		66ABCBC01F64F37A00A5EA07 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66ABCBBF1F64F37A00A5EA07 /* Default-568h@2x.png */; };
 		66ABCBC41F64F45200A5EA07 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 66ABCBC31F64F45200A5EA07 /* Info.plist */; };
@@ -47,6 +49,8 @@
 /* Begin PBXFileReference section */
 		662D774A1F6552C000511A7A /* users.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
 		6645E4931F64FEE7008DD79B /* ImportJSONData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportJSONData.swift; sourceTree = "<group>"; };
+		669FB65C1F65F07D0035CCFA /* TeacherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherViewController.swift; sourceTree = "<group>"; };
+		669FB65E1F65F1C10035CCFA /* StudentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentViewController.swift; sourceTree = "<group>"; };
 		66ABCBBD1F64F22200A5EA07 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		66ABCBBF1F64F37A00A5EA07 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		66ABCBC31F64F45200A5EA07 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -112,6 +116,7 @@
 		66ABCBBB1F64F1E700A5EA07 /* Teacher */ = {
 			isa = PBXGroup;
 			children = (
+				669FB65C1F65F07D0035CCFA /* TeacherViewController.swift */,
 			);
 			path = Teacher;
 			sourceTree = "<group>";
@@ -119,6 +124,7 @@
 		66ABCBBC1F64F1F100A5EA07 /* Student */ = {
 			isa = PBXGroup;
 			children = (
+				669FB65E1F65F1C10035CCFA /* StudentViewController.swift */,
 			);
 			path = Student;
 			sourceTree = "<group>";
@@ -317,8 +323,10 @@
 				66B11FD61F64F82C00C4E30E /* QuizAnswer+CoreDataClass.swift in Sources */,
 				66ABCBBE1F64F22200A5EA07 /* LoginViewController.swift in Sources */,
 				66C99AD11F64D31F00A02ADF /* ViewController.swift in Sources */,
+				669FB65F1F65F1C10035CCFA /* StudentViewController.swift in Sources */,
 				66B11FD81F64F82C00C4E30E /* QuizQuestion+CoreDataClass.swift in Sources */,
 				66B11FE11F64F82C00C4E30E /* Teacher+CoreDataProperties.swift in Sources */,
+				669FB65D1F65F07D0035CCFA /* TeacherViewController.swift in Sources */,
 				66B11FDB1F64F82C00C4E30E /* QuizCollection+CoreDataProperties.swift in Sources */,
 				66B11FDE1F64F82C00C4E30E /* Individual+CoreDataClass.swift in Sources */,
 				66B11FD91F64F82C00C4E30E /* QuizQuestion+CoreDataProperties.swift in Sources */,
