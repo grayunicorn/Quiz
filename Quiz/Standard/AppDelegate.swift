@@ -30,6 +30,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       let teachers = try moc.fetch(teachersRequest) as! [Teacher]
       if teachers.count == 0 {
         try ImportJSONData.importJSONUsersFrom("users", fileExt: "json", context: moc)
+        
+        // now after that teachers should exist, so they can have the quiz imported
+        let teachers = try moc.fetch(teachersRequest) as! [Teacher]
+        for teacher in teachers {
+          do {
+            try ImportJSONData.importJSONQuizFrom("question_data", fileExt: "json", teacher: teacher, context: moc)
+          } catch {
+            print("File input error!")
+          }
+        }
       } else {
         print("teachers I know:")
         for teacher in teachers {

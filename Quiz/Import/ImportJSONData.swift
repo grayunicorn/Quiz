@@ -39,6 +39,7 @@ class ImportJSONData {
             let newStudent = Student.createWithLogin(login: studentName, inContext: moc)
             moc.insert(newStudent)
             newTeacher.addToStudents(newStudent)
+            newStudent.teacher = newTeacher
           }
         }
         // write the new User records to the managed object context
