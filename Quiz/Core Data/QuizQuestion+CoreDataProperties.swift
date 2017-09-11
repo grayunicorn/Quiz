@@ -68,5 +68,17 @@ extension QuizQuestion {
     question.text = text
     return question;
   }
+  
+  func answerNumber(_ number: Int) -> QuizAnswer? {
+    
+    var foundAnswer: QuizAnswer?
+    if let answers = answers {
+      if number < answers.count {
+        let answer = answers[number] as! QuizAnswer
+        foundAnswer = answer
+      }
+    }
+    return foundAnswer
+  }
 }
 

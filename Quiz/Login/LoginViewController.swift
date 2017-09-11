@@ -27,8 +27,10 @@ class LoginViewController: UIViewController {
     
     if let teacherVC = segue.destination as? TeacherViewController {
       teacherVC.me = loggedInTeacher
+      teacherVC.moc = moc
     } else if let studentVC = segue.destination as? StudentViewController {
       studentVC.me = loggedInStudent
+      studentVC.moc = moc
     } else {
       print("That can't happen - login type unknown")
     }

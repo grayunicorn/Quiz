@@ -65,7 +65,8 @@ class ImportJSONData {
     guard let quizTitle = questionDictionary[kTitleKey] as? String else { return }
     
     // this is a new QuizCollection - since only a Teacher can use this import function the new collection belongs to this Teacher
-    let newCollection = QuizCollection.createWithTitle(quizTitle, forTeacher: teacher, inContext: moc)
+    let newCollection = QuizCollection.createWithTitle(quizTitle, inContext: moc)
+    teacher.addToQuizzes(newCollection)
 
     // the dictionary of questions has an array of dictionaries defining the questions
     if let questionsArray = questionDictionary[kQuestionsKey] as? [[String: [Any]]] {
@@ -76,6 +77,7 @@ class ImportJSONData {
         if let questionKey = question.keys.first {
 
           let newQuestion = QuizQuestion.createWithText(text: questionKey, inContext: moc)
+          newCollection.addToQuestions(newQuestion)
           
           // All questions have an answer array even if empty
           if let answers = question[questionKey] as? [[String: String]] {

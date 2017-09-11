@@ -17,7 +17,8 @@ import CoreData
 class TeacherViewController: UIViewController {
 
   var me: Teacher?
-  
+  var moc: NSManagedObjectContext? = nil
+
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 

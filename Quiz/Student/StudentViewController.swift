@@ -23,13 +23,22 @@ class StudentViewController: UIViewController {
   
   var me: Student?
   var myTeacher: Teacher?
+  var moc: NSManagedObjectContext? = nil
+
+  let kAvailableQuizSection = 0
+  let kCompletedQuizSection = 1
+  
+  var selectedQuizCollection: QuizCollection?
   
   @IBOutlet weak var tableView: UITableView!
   
-  override func performSegue(withIdentifier identifier: String, sender: Any?) {
-    
-    // transition to a select teacher table
-    // transition to a quiz completion view
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+    if let quizVC = segue.destination as? QuizViewController {
+      // go and do a quiz
+      quizVC.quizCollection = selectedQuizCollection
+      quizVC.moc = moc!
+    }
   }
   
   override func viewDidLoad() {
@@ -44,11 +53,34 @@ class StudentViewController: UIViewController {
 extension StudentViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
-    // find the teachers that this student has - one section per result
-    // within each section there are as many rows as there are quizzes to attempt
-    print("selected index row \(indexPath)")
-    performSegue(withIdentifier: "", sender: self)
+   
+    if indexPath.section == kAvailableQuizSection {
+      
+      // select the teacher's quiz for this row
+      if let me = me, let teacher = me.teacher, let quizzes = teacher.quizzes {
+        if let quizCollection = quizzes[indexPath.row] as? QuizCollection {
+          
+          do {
+            if let duplicateQuizCollection = try quizCollection.duplicateWithoutAnswers(moc: moc!) {
+              me.addToQuizzes(duplicateQuizCollection)
+              selectedQuizCollection = duplicateQuizCollection
+              performSegue(withIdentifier: "BeginQuizSegue", sender: self)
+            }
+          } catch {
+            print("Can't duplicate the quiz collection!")
+          }
+        }
+      }
+    }
+//    else if indexPath.section == kCompletedQuizSection {
+//
+//      // select my completed quiz for this row
+//      if let me = me, let quizzes = me.quizzes {
+//        let quizCollection = quizzes[indexPath.row]
+//      }
+//    }
+
+    // turn off selection
     tableView.deselectRow(at: indexPath, animated: true)
   }
 }
@@ -58,9 +90,9 @@ extension StudentViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
   
-    if section == 1 {
+    if section == kAvailableQuizSection {
       return "Available Quizzes"
-    } else if section == 2 {
+    } else if section == kCompletedQuizSection {
       return "Completed"
     }
     return nil
@@ -72,7 +104,7 @@ extension StudentViewController: UITableViewDataSource {
     // In second section configure cells with completed quiz titles and any available score
     
     let cell = tableView.dequeueReusableCell(withIdentifier: "QuizTitleTableViewCell")
-    if indexPath.section == 1 {
+    if indexPath.section == kAvailableQuizSection {
       
       // display the teacher's quiz for this row
       if let me = me, let teacher = me.teacher, let quizzes = teacher.quizzes {
@@ -80,7 +112,7 @@ extension StudentViewController: UITableViewDataSource {
         cell!.textLabel?.text = quizCollection.text!
       }
       
-    } else if indexPath.section == 2 {
+    } else if indexPath.section == kCompletedQuizSection {
       
       // display my completed quiz for this row
       if let me = me, let quizzes = me.quizzes {
@@ -101,10 +133,10 @@ extension StudentViewController: UITableViewDataSource {
   // In second section find the number of results
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     
-    if section == 1 {
+    if section == kAvailableQuizSection {
       guard let me = me, let teacher = me.teacher, let quizzes = teacher.quizzes else { return 0 }
       return quizzes.count
-    } else if section == 2 {
+    } else if section == kCompletedQuizSection {
       guard let me = me, let quizzes = me.quizzes else { return 0 }
       return quizzes.count
     }

@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 extension QuizCollection {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<QuizCollection> {
@@ -63,12 +62,54 @@ extension QuizCollection {
 extension QuizCollection {
   
   // create a new QuizCollection with its title, add it to the Teacher's collection
-  class func createWithTitle(_ text: String, forTeacher: Teacher, inContext: NSManagedObjectContext) -> QuizCollection {
+  class func createWithTitle(_ text: String, inContext: NSManagedObjectContext) -> QuizCollection {
     
     let collection = NSEntityDescription.insertNewObject(forEntityName: kManagedObjectIdentifier, into: inContext) as! QuizCollection
     collection.text = text
-    forTeacher.addToQuizzes(collection)
     return collection
+  }
+  
+  func questionNumber(_ number: Int) -> QuizQuestion? {
+    
+    var foundQuestion: QuizQuestion?
+    if let questions = questions {
+      if number < questions.count {
+        let question = questions[number] as! QuizQuestion
+        foundQuestion = question
+      }
+    }
+    return foundQuestion
+  }
+  
+  // duplicate this quiz collection, but make every answer false/empty
+  // this method uses some unsafe ! unwraps - but if there were any chance a collection was not valid things would have broken long before this point
+  func duplicateWithoutAnswers(moc: NSManagedObjectContext) throws -> QuizCollection? {
+    
+    let newCollection = QuizCollection.createWithTitle(text!, inContext: moc)
+
+    for question in questions! {
+      
+      // duplicate every question
+      let thisQuestion = question as! QuizQuestion
+      let newQuestion = QuizQuestion.createWithText(text: thisQuestion.text!, inContext: moc)
+      newCollection.addToQuestions(newQuestion)
+      
+      for answer in thisQuestion.answers! {
+        
+        // duplicate every answer
+        let thisAnswer = answer as! QuizAnswer
+        let newAnswer = QuizAnswer.createWithText(text: thisAnswer.text!, isCorrect: "F", inContext: moc)
+        newQuestion.addToAnswers(newAnswer)
+      }
+      
+    }
+    
+    // write the new QuizCollection to the managed object context
+    moc.insert(newCollection)
+    try moc.save()
+    
+    // return the copy
+    return newCollection
   }
 }
 
