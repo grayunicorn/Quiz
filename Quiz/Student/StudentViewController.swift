@@ -41,6 +41,12 @@ class StudentViewController: UIViewController {
     }
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    
+    super.viewWillAppear(animated)
+    tableView.reloadData()
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     if let me = me, let name = me.login {

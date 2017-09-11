@@ -168,6 +168,7 @@
                         <viewLayoutGuide key="safeArea" id="Yv4-on-R55"/>
                     </view>
                     <connections>
+                        <outlet property="tableView" destination="BSO-QL-NbC" id="Enp-DS-N8S"/>
                         <segue destination="VHv-0l-OU3" kind="show" identifier="BeginQuizSegue" id="8Cq-l4-m5V"/>
                     </connections>
                 </viewController>
