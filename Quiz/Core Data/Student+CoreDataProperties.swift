@@ -67,5 +67,33 @@ extension Student {
     student.login = login
     return student
   }
+  
+  func gradeableResults() -> [QuizCollection] {
+
+    var gradeable: [QuizCollection] = []
+    for quiz in quizzes! {
+      
+      let thisQuiz = quiz as! QuizCollection
+      if thisQuiz.isGradeable() {
+        gradeable.append(thisQuiz)
+      }
+    }
+    return gradeable
+  }
+  
+  // return all the QuizCollection objects owned by this student that can't be graded yet
+  func quizzesRequiringGrading() -> [QuizCollection] {
+  
+    var needGrading: [QuizCollection] = []
+    
+    for quiz in quizzes! {
+      
+      let thisQuiz = quiz as! QuizCollection
+      if thisQuiz.isGradeable() == false {
+        needGrading.append(thisQuiz)
+      }
+    }
+    return needGrading
+  }
 }
 

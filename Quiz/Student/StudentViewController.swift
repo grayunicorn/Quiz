@@ -22,9 +22,9 @@ import CoreData
 class StudentViewController: UIViewController {
   
   var me: Student?
-  var myTeacher: Teacher?
+  var teacher: Teacher?
   var moc: NSManagedObjectContext? = nil
-
+  
   let kAvailableQuizSection = 0
   let kCompletedQuizSection = 1
   
@@ -33,7 +33,7 @@ class StudentViewController: UIViewController {
   @IBOutlet weak var tableView: UITableView!
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
+    
     if let quizVC = segue.destination as? QuizViewController {
       // go and do a quiz
       quizVC.quizCollection = selectedQuizCollection
@@ -59,7 +59,7 @@ class StudentViewController: UIViewController {
 extension StudentViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-   
+    
     if indexPath.section == kAvailableQuizSection {
       
       // select the teacher's quiz for this row
@@ -78,14 +78,7 @@ extension StudentViewController: UITableViewDelegate {
         }
       }
     }
-//    else if indexPath.section == kCompletedQuizSection {
-//
-//      // select my completed quiz for this row
-//      if let me = me, let quizzes = me.quizzes {
-//        let quizCollection = quizzes[indexPath.row]
-//      }
-//    }
-
+    
     // turn off selection
     tableView.deselectRow(at: indexPath, animated: true)
   }
@@ -95,7 +88,7 @@ extension StudentViewController: UITableViewDelegate {
 extension StudentViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-  
+    
     if section == kAvailableQuizSection {
       return "Available Quizzes"
     } else if section == kCompletedQuizSection {
@@ -108,21 +101,37 @@ extension StudentViewController: UITableViewDataSource {
     
     // In first section configure cells with all available quiz titles
     // In second section configure cells with completed quiz titles and any available score
-    
-    let cell = tableView.dequeueReusableCell(withIdentifier: "QuizTitleTableViewCell")
+    var cell: UITableViewCell?
     if indexPath.section == kAvailableQuizSection {
+      cell = tableView.dequeueReusableCell(withIdentifier: "QuizTitleTableViewCell")!
       
       // display the teacher's quiz for this row
       if let me = me, let teacher = me.teacher, let quizzes = teacher.quizzes {
         let quizCollection = quizzes[indexPath.row] as! QuizCollection
         cell!.textLabel?.text = quizCollection.text!
       }
-      
+
     } else if indexPath.section == kCompletedQuizSection {
       
+      cell = tableView.dequeueReusableCell(withIdentifier: "QuizGradedCell")!
+
+      guard let me = me, let teacher = me.teacher else { return UITableViewCell() }
+
+      let teacherQuiz = teacher.quizzes?.firstObject as! QuizCollection
+      
       // display my completed quiz for this row
-      if let me = me, let quizzes = me.quizzes {
+      if let quizzes = me.quizzes {
         let quizCollection = quizzes[indexPath.row] as! QuizCollection
+        if quizCollection.isGradeable() {
+          do {
+            let grade = try quizCollection.gradeAgainst(teacherQuiz: teacherQuiz)
+            cell!.detailTextLabel?.text = String.init(describing: grade)
+          } catch {
+            print("Cannot compute a grade")
+          }
+        } else {
+          cell!.detailTextLabel?.text = "Awaiting grade"
+        }
         cell!.textLabel?.text = quizCollection.text!
       }
     }
@@ -144,6 +153,7 @@ extension StudentViewController: UITableViewDataSource {
       return quizzes.count
     } else if section == kCompletedQuizSection {
       guard let me = me, let quizzes = me.quizzes else { return 0 }
+      print("\(quizzes.count)")
       return quizzes.count
     }
     return 0
