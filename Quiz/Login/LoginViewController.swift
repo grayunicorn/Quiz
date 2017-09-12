@@ -41,8 +41,9 @@ class LoginViewController: UIViewController {
     // can't match anything without characters or a context
     guard let loginAttempt = usernameField.text, loginAttempt.isEmpty == false else { return }
     guard let moc = moc else { return }
+    var recognised = false
     
-    // look for a teacher with this name
+    // Core data search for a teacher with this name
     let teachersRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Teacher.kManagedObjectIdentifier)
     let teachersNamePredicate = NSPredicate(format: "login == %@", loginAttempt)
     teachersRequest.predicate = teachersNamePredicate
@@ -50,49 +51,49 @@ class LoginViewController: UIViewController {
     do {
       let teachers = try moc.fetch(teachersRequest) as! [Teacher]
       if let foundTeacher = teachers.first {
-        
+        // teacher login recognised, proceed as teacher
         loggedInTeacher = foundTeacher
         performSegue(withIdentifier: LoginViewController.kTeacherLoginSegue, sender: self)
-        return
+        recognised = true
       }
     } catch {
-      
+      print("could not look up teacher")
     }
     
-    // or, it could be a student
-    // look for a teacher with this name
-    let studentRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Student.kManagedObjectIdentifier)
-    let studentNamePredicate = NSPredicate(format: "login == %@", loginAttempt)
-    studentRequest.predicate = studentNamePredicate
-    
-    do {
-      let students = try moc.fetch(studentRequest) as! [Student]
-      if let foundStudent = students.first {
-        
-        loggedInStudent = foundStudent
-        performSegue(withIdentifier: LoginViewController.kStudentLoginSegue, sender: self)
-        return
+    if recognised == false {
+      // if not a teacher, Core data search for a student with this name
+      let studentRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Student.kManagedObjectIdentifier)
+      let studentNamePredicate = NSPredicate(format: "login == %@", loginAttempt)
+      studentRequest.predicate = studentNamePredicate
+      
+      do {
+        let students = try moc.fetch(studentRequest) as! [Student]
+        if let foundStudent = students.first {
+          
+          loggedInStudent = foundStudent
+          performSegue(withIdentifier: LoginViewController.kStudentLoginSegue, sender: self)
+          recognised = true
+        }
+      } catch {
+        print("could not look up student")
       }
-    } catch {
-      
     }
-
+    
+    if recognised == false {
+      // if a student was not found either then a simple alert if the login is not recognized
+      let alertController = UIAlertController(title: "Login Failure", message: "Login was not recognised.", preferredStyle: .alert)
+      let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+      alertController.addAction(defaultAction)
+      present(alertController, animated: true, completion: nil)
+    }
   }
-  
-  @IBAction func usernameEditingDidEnd(_ sender: Any) {
-    print("editDidEnd")
-  }
-  
-  @IBAction func reset(_ sender: Any) {
-  }
-
 }
 
 // MARK:- UITextFieldDelegate
-extension LoginViewController {
+extension LoginViewController: UITextFieldDelegate {
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    proceedButtonAction(textField)
     return true
   }
-
 }

@@ -120,8 +120,6 @@ extension QuizCollection {
     
     for question in questions! {
       let thisQuestion = question as! QuizQuestion
-      print("\(thisQuestion.text!)")
-      print("has \(thisQuestion.answers!.count) answers)")
 
       // for now it is just assumed that since student quizzes come directly from teacher quizzes they always have
       // multiple choice answers that can be checked against teacher answers. Only text answers matter here.

@@ -10,6 +10,11 @@ import Foundation
 import UIKit
 import CoreData
 
+// this object is a little complex with a lot of calculations to turn the cells into specialised types to better
+// display the quiz question. It is also used for teacher assessment where only those questions requiring assessment
+// are displayed, the rest skipped.
+
+// delegate protocol for the grading cell. Changes in the cell are written back to the Core Data model via this object.
 protocol GradingValueDelegate {
   func gradeDidChange(grade: Int)
 }
@@ -32,6 +37,10 @@ class QuizViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    // if grading, then this object could show all of the questions and have the etacher click through each one. Instead
+    // it kicks off the process of looking at the current question and advancing if it does not appear to be a text
+    // question. The process proceeds by simulating a click on each question's "proceed" button using the didSelectAt:
+    // function.
     if gradingView == true {
       skipIfNoGradingRequired()
     }
@@ -53,7 +62,7 @@ extension QuizViewController: GradingValueDelegate {
   // receive a new grading value because the slider changed.
   func gradeDidChange(grade: Int) {
     guard let quizCollection = quizCollection, let thisQuestion = quizCollection.questionNumber(questionNumber) else { return }
-    // conversion required for Core Data attribute type
+    // cast required for Core Data attribute type
     thisQuestion.assignedPercentage = Int16(grade)
   }
 }
@@ -75,8 +84,8 @@ extension QuizViewController: UITableViewDelegate {
       } else {
         // questions are all finished - write it to the student and navigate back
         do {
+          // if grading don't insert again because this object is already inserted
           if gradingView == false {
-            // if grading don't insert again because this object is already inserted
             moc!.insert(quizCollection)
           }
           try moc!.save()
@@ -168,8 +177,6 @@ extension QuizViewController: UITableViewDataSource {
     guard let quizCollection = quizCollection else { return 0 }
     guard let thisQuestion = quizCollection.questionNumber(questionNumber) else { return 0 }
     guard let answers = thisQuestion.answers else { return 0 }
-    
-    // guard let quizCollection = quizCollection, let thisQuestion = quizCollection.questionNumber(questionNumber), let answers = thisQuestion.answers else { return 0 }
     
     // every question table has a question cell and a submit cell
     var cells = 2

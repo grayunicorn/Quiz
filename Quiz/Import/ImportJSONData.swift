@@ -29,11 +29,11 @@ class ImportJSONData {
     // the teacher array contains a number of teachers with associated students
     for teacher in teachersArray {
       if let teacherName = teacher.keys.first {
-        // there is a valid teacher name so create that teacher
+        // create valid teacher names
         let newTeacher = Teacher.createWithLogin(login: teacherName, inContext: moc)
         
         if let studentArray = teacher[teacherName] as? [String] {
-          // there are some student names too so create those as students of the teacher
+          // create valid student names for the teacher
           for studentName in studentArray {
             
             let newStudent = Student.createWithLogin(login: studentName, inContext: moc)
@@ -64,7 +64,7 @@ class ImportJSONData {
     // must be able to find a title for a new quiz collection
     guard let quizTitle = questionDictionary[kTitleKey] as? String else { return }
     
-    // this is a new QuizCollection - since only a Teacher can use this import function the new collection belongs to this Teacher
+    // this is a new QuizCollection owned by the teacher (passed in)
     let newCollection = QuizCollection.createWithTitle(quizTitle, inContext: moc)
     teacher.addToQuizzes(newCollection)
 
@@ -77,6 +77,7 @@ class ImportJSONData {
         if let questionKey = question.keys.first {
 
           let newQuestion = QuizQuestion.createWithText(text: questionKey, inContext: moc)
+          // value -1 is used to denote unset; normal range is 0-100 (percentage)
           newQuestion.assignedPercentage = -1
           newCollection.addToQuestions(newQuestion)
           

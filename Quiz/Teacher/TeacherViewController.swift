@@ -24,8 +24,8 @@ class TeacherViewController: UIViewController {
   var grading = false
   
   // these two arrays are used for precalculation of table view display
-  var needGrading: [QuizCollection]?
-  var haveResults: [Student]?
+  var needGrading: [QuizCollection] = []
+  var haveResults: [Student] = []
   
   @IBOutlet weak var tableView: UITableView!
   
@@ -78,11 +78,11 @@ class TeacherViewController: UIViewController {
     if let students = me.students {
       for student in students {
         let student = student as! Student
-        needGrading?.append(contentsOf: student.quizzesRequiringGrading())
+        needGrading.append(contentsOf: student.quizzesRequiringGrading())
         let completeQuizzes = student.gradeableResults()
         if completeQuizzes.count > 0 {
           // gather each student that has results that can be viewed
-          haveResults?.append(student)
+          haveResults.append(student)
         }
       }
     }
@@ -112,18 +112,14 @@ extension TeacherViewController: UITableViewDelegate {
     } else if indexPath.section == kCorrectionSection {
 
       // go to the quiz screen where the teacher can edit answers
-      if let needGrading = needGrading {
-        selectedQuizCollection = needGrading[indexPath.row]
-        grading = true
-        performSegue(withIdentifier: "TeacherQuizSegue", sender: self)
-      }
+      selectedQuizCollection = needGrading[indexPath.row]
+      grading = true
+      performSegue(withIdentifier: "TeacherQuizSegue", sender: self)
       
     } else if indexPath.section == kResultsSection {
       
-      if let haveResults = haveResults {
-        selectedStudent = haveResults[indexPath.row]
-        performSegue(withIdentifier: "TeacherStudentResultsSegue", sender: self)
-      }
+      selectedStudent = haveResults[indexPath.row]
+      performSegue(withIdentifier: "TeacherStudentResultsSegue", sender: self)
     }
     tableView.deselectRow(at: indexPath, animated: true)
   }
@@ -160,10 +156,8 @@ extension TeacherViewController: UITableViewDataSource {
       
       // populate the cell with the quiz the Teacher should correct at the index path
       if let newCell = tableView.dequeueReusableCell(withIdentifier: "QuizTitleTableViewCell") {
-        if let needGrading = needGrading {
-          let quiz = needGrading[indexPath.row]
-          newCell.textLabel?.text = quiz.text
-        }
+        let quiz = needGrading[indexPath.row]
+        newCell.textLabel?.text = quiz.text
         cell = newCell
       }
 
@@ -171,14 +165,8 @@ extension TeacherViewController: UITableViewDataSource {
       
       // populate the cell with the student whose results can be viewed
       if let newCell = tableView.dequeueReusableCell(withIdentifier: "StudentNameTableViewCell") {
-        if let haveResults = haveResults {
-          let student = haveResults[indexPath.row]
-          newCell.textLabel?.text = student.login
-        }
-        cell = newCell
 
-        
-        let student = students[indexPath.row] as! Student
+        let student = haveResults[indexPath.row]
         newCell.textLabel?.text = student.login
         cell = newCell
       }
@@ -199,15 +187,11 @@ extension TeacherViewController: UITableViewDataSource {
       
     } else if section == kCorrectionSection {
 
-      if let needGrading = needGrading {
-        count = needGrading.count
-      }
+      count = needGrading.count
 
     } else if section == kResultsSection {
       
-      if let haveResults = haveResults {
-        count = haveResults.count
-      }
+      count = haveResults.count
     }
     return count
   }
