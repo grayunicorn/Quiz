@@ -114,13 +114,67 @@
                     <view key="view" contentMode="scaleToFill" id="Y8M-mu-FUQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Rdt-Jf-wwl">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="QuizTitleTableViewCell" id="MAG-Xe-fQM">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MAG-Xe-fQM" id="lJX-0c-h9v">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StudentNameTableViewCell" id="v2H-hl-waf">
+                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="v2H-hl-waf" id="Dd3-Fe-bC3">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Zj0-Le-pGb" id="VUP-Si-tYo"/>
+                                    <outlet property="delegate" destination="Zj0-Le-pGb" id="v2I-3G-rZw"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" red="0.91684196610000002" green="1" blue="0.78161866040000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Rdt-Jf-wwl" firstAttribute="leading" secondItem="LCG-ME-GWi" secondAttribute="leading" id="Aj3-hJ-wNL"/>
+                            <constraint firstItem="LCG-ME-GWi" firstAttribute="bottom" secondItem="Rdt-Jf-wwl" secondAttribute="bottom" id="YBe-w8-3bU"/>
+                            <constraint firstItem="Rdt-Jf-wwl" firstAttribute="top" secondItem="LCG-ME-GWi" secondAttribute="top" id="f3N-y9-HAT"/>
+                            <constraint firstItem="LCG-ME-GWi" firstAttribute="trailing" secondItem="Rdt-Jf-wwl" secondAttribute="trailing" id="lyD-Ne-OqW"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="LCG-ME-GWi"/>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="Rdt-Jf-wwl" id="nfR-gb-vvG"/>
+                        <segue destination="VHv-0l-OU3" kind="show" identifier="TeacherQuizSegue" id="YXZ-tR-q3u"/>
+                        <segue destination="8Qi-Bn-6Lv" kind="show" identifier="TeacherStudentSegue" id="rTc-mK-iHj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H02-XB-RIN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1257" y="-646"/>
+            <point key="canvasLocation" x="1256.8" y="-646.32683658170924"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="f8d-gr-VP3">
+            <objects>
+                <viewController id="8Qi-Bn-6Lv" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="e3p-hf-xeB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="nXW-sE-U5g"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qbR-1d-MVw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2166" y="-646"/>
         </scene>
         <!--Student View Controller-->
         <scene sceneID="RIa-Am-57u">
@@ -174,7 +228,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mtl-du-M2F" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1256.8" y="52.623688155922046"/>
+            <point key="canvasLocation" x="1274" y="184"/>
         </scene>
         <!--Quiz View Controller-->
         <scene sceneID="qFJ-Bl-nhG">
@@ -293,7 +347,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GWa-cT-dHc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2164" y="52.623688155922046"/>
+            <point key="canvasLocation" x="2167" y="184"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="YXZ-tR-q3u"/>
+    </inferredMetricsTieBreakers>
 </document>

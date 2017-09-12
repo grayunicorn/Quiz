@@ -2,7 +2,7 @@
 //  Teacher+CoreDataProperties.swift
 //  Quiz
 //
-//  Created by Adam Eberbach on 11/9/17.
+//  Created by Adam Eberbach on 12/9/17.
 //  Copyright © 2017 Adam Eberbach. All rights reserved.
 //
 //
@@ -18,7 +18,7 @@ extension Teacher {
     }
 
     @NSManaged public var quizzes: NSOrderedSet?
-    @NSManaged public var students: NSSet?
+    @NSManaged public var students: NSOrderedSet?
 
 }
 
@@ -60,6 +60,24 @@ extension Teacher {
 // MARK: Generated accessors for students
 extension Teacher {
 
+    @objc(insertObject:inStudentsAtIndex:)
+    @NSManaged public func insertIntoStudents(_ value: Student, at idx: Int)
+
+    @objc(removeObjectFromStudentsAtIndex:)
+    @NSManaged public func removeFromStudents(at idx: Int)
+
+    @objc(insertStudents:atIndexes:)
+    @NSManaged public func insertIntoStudents(_ values: [Student], at indexes: NSIndexSet)
+
+    @objc(removeStudentsAtIndexes:)
+    @NSManaged public func removeFromStudents(at indexes: NSIndexSet)
+
+    @objc(replaceObjectInStudentsAtIndex:withObject:)
+    @NSManaged public func replaceStudents(at idx: Int, with value: Student)
+
+    @objc(replaceStudentsAtIndexes:withStudents:)
+    @NSManaged public func replaceStudents(at indexes: NSIndexSet, with values: [Student])
+
     @objc(addStudentsObject:)
     @NSManaged public func addToStudents(_ value: Student)
 
@@ -67,10 +85,10 @@ extension Teacher {
     @NSManaged public func removeFromStudents(_ value: Student)
 
     @objc(addStudents:)
-    @NSManaged public func addToStudents(_ values: NSSet)
+    @NSManaged public func addToStudents(_ values: NSOrderedSet)
 
     @objc(removeStudents:)
-    @NSManaged public func removeFromStudents(_ values: NSSet)
+    @NSManaged public func removeFromStudents(_ values: NSOrderedSet)
 
 }
 

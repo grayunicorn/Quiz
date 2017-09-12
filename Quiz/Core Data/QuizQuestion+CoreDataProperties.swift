@@ -2,7 +2,7 @@
 //  QuizQuestion+CoreDataProperties.swift
 //  Quiz
 //
-//  Created by Adam Eberbach on 11/9/17.
+//  Created by Adam Eberbach on 12/9/17.
 //  Copyright © 2017 Adam Eberbach. All rights reserved.
 //
 //
@@ -18,6 +18,7 @@ extension QuizQuestion {
     }
 
     @NSManaged public var text: String?
+    @NSManaged public var assignedPercentage: Int16
     @NSManaged public var answers: NSOrderedSet?
     @NSManaged public var collection: QuizCollection?
 

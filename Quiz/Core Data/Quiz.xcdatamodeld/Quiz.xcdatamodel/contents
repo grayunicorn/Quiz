@@ -15,6 +15,7 @@
         <relationship name="teachers" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Teacher" inverseName="quizzes" inverseEntity="Teacher" syncable="YES"/>
     </entity>
     <entity name="QuizQuestion" representedClassName=".QuizQuestion" syncable="YES">
+        <attribute name="assignedPercentage" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="100" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="answers" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="QuizAnswer" inverseName="question" inverseEntity="QuizAnswer" syncable="YES"/>
         <relationship name="collection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuizCollection" inverseName="questions" inverseEntity="QuizCollection" syncable="YES"/>
@@ -25,13 +26,13 @@
     </entity>
     <entity name="Teacher" representedClassName=".Teacher" parentEntity="Individual" syncable="YES">
         <relationship name="quizzes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="QuizCollection" inverseName="teachers" inverseEntity="QuizCollection" syncable="YES"/>
-        <relationship name="students" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Student" inverseName="teacher" inverseEntity="Student" syncable="YES"/>
+        <relationship name="students" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Student" inverseName="teacher" inverseEntity="Student" syncable="YES"/>
     </entity>
     <elements>
         <element name="Individual" positionX="-317" positionY="-544" width="128" height="58"/>
         <element name="QuizAnswer" positionX="214" positionY="-225" width="128" height="88"/>
         <element name="QuizCollection" positionX="205" positionY="-585" width="128" height="103"/>
-        <element name="QuizQuestion" positionX="207" positionY="-396" width="128" height="88"/>
+        <element name="QuizQuestion" positionX="207" positionY="-396" width="128" height="103"/>
         <element name="Student" positionX="-90" positionY="-621" width="128" height="73"/>
         <element name="Teacher" positionX="-81" positionY="-459" width="128" height="73"/>
     </elements>
