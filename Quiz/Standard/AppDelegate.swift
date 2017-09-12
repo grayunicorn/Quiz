@@ -40,11 +40,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("File input error!")
           }
         }
-      } else {
-        print("teachers I know:")
-        for teacher in teachers {
-          print("\(teacher.login!)")
-        }
       }
     } catch {
       fatalError("Failed to import users: \(error)")

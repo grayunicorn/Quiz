@@ -19,11 +19,6 @@ class StudentResultsViewController: UIViewController {
   
   @IBOutlet weak var tableView: UITableView!
   
-  // refresh table view whenever this view appears
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-  }
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     if let student = student, let name = student.login {
@@ -54,6 +49,8 @@ extension StudentResultsViewController: UITableViewDataSource {
     let quizCollection = quizzes![indexPath.row] as! QuizCollection
     
     do {
+      // cause the quizCollection object to compare itself to the teacher's quizzCollection
+      // object and compute a grade
       let grade = try quizCollection.gradeAgainst(teacherQuiz: teacherQuiz)
       cell.textLabel?.text = teacherQuiz.text
       cell.detailTextLabel?.text = String(describing: grade!)
@@ -68,6 +65,7 @@ extension StudentResultsViewController: UITableViewDataSource {
     return 1
   }
   
+  // return number of rows in table view sections
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
     // there is only one section

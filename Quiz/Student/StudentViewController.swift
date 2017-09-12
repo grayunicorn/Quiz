@@ -153,7 +153,6 @@ extension StudentViewController: UITableViewDataSource {
       return quizzes.count
     } else if section == kCompletedQuizSection {
       guard let me = me, let quizzes = me.quizzes else { return 0 }
-      print("\(quizzes.count)")
       return quizzes.count
     }
     return 0

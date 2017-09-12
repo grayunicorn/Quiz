@@ -18,7 +18,9 @@ class GradingTableViewCell: UITableViewCell {
   
   @IBAction func doSomething(sender: UISlider) {
 
-    delegate?.gradeDidChange(grade: Int(sender.value))
+    // when the action fires and the slider changes the value, the label showing the grade should be updated
+    // and at the same time this cell's delegate notified of the new value.
     gradeLabel.text = String(Int(sender.value))
+    delegate?.gradeDidChange(grade: Int(sender.value))
   }
 }

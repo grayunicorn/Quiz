@@ -3,7 +3,7 @@ This has been a little ambitious for “a few hours” so it is not as complete 
 
 This project is an iOS project in Xcode written using Swift 4. The version of Xcode used is 9 beta 6 - I anticipate Xcode 9 being released by Wednesday the 13th. Even if not Xcode 9 should be available from developer.appl.com as a free download.
 
-Best practise would be to use unit testing as included with a standard Xcode project. I have not written tests.
+Best practise would be to use unit testing as included with a standard Xcode project. I have not written tests. In the same way error handling is more casual than it would normally be.
 
 In developing I have used GitHub with the usual branch/modify/pull request/merge cycle. I started off making some tasks in Trello but decided the branches 
 I have developed it using iPhone simulators like iPhone SE though it should work on most others and on iPad simulators. No though has been given to optimising layout after rotation or for different screen sizes though it should work fine, just not adapt to the correct screen position.

@@ -62,8 +62,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                                 <connections>
-                                    <action selector="usernameEditingDidEnd:" destination="SPB-7j-5xi" eventType="editingDidEnd" id="cbz-Qp-BwQ"/>
-                                    <outlet property="delegate" destination="SPB-7j-5xi" id="uW9-K8-ooF"/>
+                                    <outlet property="delegate" destination="SPB-7j-5xi" id="jbx-bp-xeH"/>
                                 </connections>
                             </textField>
                         </subviews>
