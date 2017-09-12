@@ -77,6 +77,7 @@ class ImportJSONData {
         if let questionKey = question.keys.first {
 
           let newQuestion = QuizQuestion.createWithText(text: questionKey, inContext: moc)
+          newQuestion.assignedPercentage = -1
           newCollection.addToQuestions(newQuestion)
           
           // All questions have an answer array even if empty

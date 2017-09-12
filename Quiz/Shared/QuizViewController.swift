@@ -10,10 +10,17 @@ import Foundation
 import UIKit
 import CoreData
 
+protocol GradingValueDelegate {
+  func gradeDidChange(grade: Int)
+}
+
 class QuizViewController: UIViewController {
   
   var moc: NSManagedObjectContext?
   var quizCollection: QuizCollection?
+  
+  // should the grading version of these views be shown?
+  var gradingView = false
   
   let kQuestionCellRow = 0
   
@@ -21,6 +28,34 @@ class QuizViewController: UIViewController {
   var questionNumber = 0
   
   @IBOutlet weak var tableView: UITableView!
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    if gradingView == true {
+      skipIfNoGradingRequired()
+    }
+  }
+  
+  // skip through answers that require no grading by simulating a user tap on the submit key
+  func skipIfNoGradingRequired() {
+    
+    guard let quizCollection = quizCollection, let thisQuestion = quizCollection.questionNumber(questionNumber) else { return }
+    if thisQuestion.answers?.count != 0 {
+      tableView(tableView, didSelectRowAt: IndexPath(row: rowCount() - 1, section: 0))
+    }
+  }
+}
+
+
+extension QuizViewController: GradingValueDelegate {
+
+  // receive a new grading value because the slider changed.
+  func gradeDidChange(grade: Int) {
+    guard let quizCollection = quizCollection, let thisQuestion = quizCollection.questionNumber(questionNumber) else { return }
+    // conversion required for Core Data attribute type
+    thisQuestion.assignedPercentage = Int16(grade)
+  }
 }
 
 // MARK:- UITableViewDelegate
@@ -40,12 +75,18 @@ extension QuizViewController: UITableViewDelegate {
       } else {
         // questions are all finished - write it to the student and navigate back
         do {
-          moc!.insert(quizCollection)
+          if gradingView == false {
+            // if grading don't insert again because this object is already inserted
+            moc!.insert(quizCollection)
+          }
           try moc!.save()
           navigationController?.popViewController(animated: true)
         } catch {
           print("Can't write a new submitted quiz for the student!")
         }
+      }
+      if gradingView == true {
+        skipIfNoGradingRequired()
       }
     } else {
       // toggle the value of this answer
@@ -84,10 +125,17 @@ extension QuizViewController: UITableViewDataSource {
       // this is the final submit cell which always keeps its set label
       cell = tableView.dequeueReusableCell(withIdentifier: "SubmitCell")!
       
-    } else if finalRow == 2 && indexPath.row == 1 {
+    } else if (gradingView == true && finalRow == 3 && indexPath.row == 1) || (gradingView == false && finalRow == 2 && indexPath.row == 1) {
       
       // then this is a text-only answer - 3 cells total and this is the text cell - user can enter text freely to answer
       cell = tableView.dequeueReusableCell(withIdentifier: "TextInputCell")!
+
+    } else if (gradingView == true && finalRow == 3 && indexPath.row == 2) {
+      // the slider cell, allowing a grade to be entered
+      if let gradingCell = tableView.dequeueReusableCell(withIdentifier: "GradingTableViewCell") as? GradingTableViewCell {
+        gradingCell.delegate = self
+        cell = gradingCell
+      }
 
     } else {
       
@@ -130,6 +178,10 @@ extension QuizViewController: UITableViewDataSource {
     // (there can't be a multiple choice question with one answer)
     if answers.count <= 1 {
       cells += 1
+      // if grading, that cell is required also.
+      if gradingView == true {
+        cells += 1
+      }
     } else {
       // in this case there are at least two answers, for four cells minimum (including question and submit)
       cells += answers.count
