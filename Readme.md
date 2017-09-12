@@ -1,18 +1,29 @@
 # General
 This has been a little ambitious for “a few hours” so it is not as complete as I imaged it but this should be good for the purpose.
+
 This project is an iOS project in Xcode written using Swift 4. The version of Xcode used is 9 beta 6 - I anticipate Xcode 9 being released by Wednesday the 13th. Even if not Xcode 9 should be available from developer.appl.com as a free download.
+
 Best practise would be to use unit testing as included with a standard Xcode project. I have not written tests.
+
 In developing I have used GitHub with the usual branch/modify/pull request/merge cycle. I started off making some tasks in Trello but decided the branches 
 I have developed it using iPhone simulators like iPhone SE though it should work on most others and on iPad simulators. No though has been given to optimising layout after rotation or for different screen sizes though it should work fine, just not adapt to the correct screen position.
+
 The UI is basic iOS elements. You won’t have to look at programmer art here because there is none.
+
 Given something that needs to be imported into a program I like to turn it into structured data. The quiz supplied is expressed in JSON (verified by https://jsonlint.com/) as `question_data.json` and included in the Xcode project. Another file `users.json` provides some users whose names can then be entered into the text box on the first screen. Users “Mr. Bob” and “Ms. Nguyen” are teachers while others like “Toby”, “Paige”, “Ting” etc. are their students. A JSON importer module handles the creation of database objects given their description in these JSON files. Other modules could handle other structured data, or a UI could be provided so that students and teachers could sign up and slot themselves into the database. For QuizCollection objects (the supplied quiz is one) a Teacher could be provided with a UI to create a new quiz.
 ## Running
 After cloning this GitHub repository the program is started from the Xcode IDE by opening it in a compatible IDE (Xcode 9), then building and running using the usual “Play” icon button at top left. Any of the iPhone simulators is a good choice.
+
 At any time the program can be reset completely by removing the app’s icon from the simulator, or by completely resetting the simulator. A startup task checks for the presence of users in the system and re-imports everything from JSON if it is not detected.
+
 The general idea is that all of the objects are imported into a Core Data model. Student and Teacher are the entities that can login. A Teacher has 0..many Students, a Student has one teacher. Both entities can have 0 or more QuizCollections. A QuizCollection has QuizQuestions which in turn has QuizAnswers. The QuizAnswers can either be multiple choice, many answers having a true or false flag, or they can be a text question.
+
 At this stage it is assumed that if a Student has a Teacher that has a QuizCollection the Student can complete it. 
+
 When a Teacher has a QuizCollection then they are able to see “their” quizzes and can change the recorded answers for that QuizCollection object. When a Student logs in, if they have a Teacher who has a QuizCollection object they can then go and complete the quiz. Before their answers are recorded the QuizCollection object is duplicated and all answers are removed. When they complete the quiz they record a complete copy with their own answers as “their” quiz. That object is then independent of any others completed by Students (including self) or Teachers. If a Teacher were able to edit questions this strategy might not work but this could be overcome by adding a unique (UUID) attribute to all objects.
+
 The second section in a Teacher’s login screen is quizzes that have been completed by a Student and require grading. The process of grading for multiple choice questions is that the Student’s version of the QuizCollection is compared against the Teacher’s. For text input questions the Teacher needs to read the answer and enter a grade manually.
+
 When a completed quiz has been graded by the Teacher in this manner it not longer appears in the second section because it no longer requires grading - the QuizCollection object reports itself as “gradeable”. Quizzes in this condition can be viewed by the Teacher selecting a student from the third section and then viewing their completed quizzes and the grade they obtained.
 ## Future
 The right way to do this kind of presentation is probably to use an existing forms library. It is not hard to bend a table view to the purpose but it is not really what it is for. In the absence of a real designer or familiarity with such libraries the table view was an easy choice. There is a lot more that could be done that requires time. 
